@@ -15,7 +15,7 @@ import java.time.ZoneId;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LibraryApiResponse<T> {
+public class ApiResponse<T> {
 
     @Schema(name = "Generic Response")
     T response;

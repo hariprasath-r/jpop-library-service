@@ -2,7 +2,7 @@ package in.hp.java.libraryservice.controller;
 
 import in.hp.java.libraryservice.controller.contract.LibraryController;
 import in.hp.java.libraryservice.dto.BookDto;
-import in.hp.java.libraryservice.dto.LibraryApiResponse;
+import in.hp.java.libraryservice.dto.ApiResponse;
 import in.hp.java.libraryservice.dto.UserDto;
 import in.hp.java.libraryservice.service.LibraryService;
 import lombok.extern.slf4j.Slf4j;
@@ -23,12 +23,12 @@ public class LibraryControllerImpl implements LibraryController {
     }
 
     @Override
-    public ResponseEntity<LibraryApiResponse<Object>> getBooks() {
+    public ResponseEntity<ApiResponse<Object>> getBooks() {
         return null;
     }
 
     @Override
-    public ResponseEntity<LibraryApiResponse<Object>> getBook(Long id) {
+    public ResponseEntity<ApiResponse<Object>> getBook(Long id) {
         return null;
     }
 
@@ -43,12 +43,12 @@ public class LibraryControllerImpl implements LibraryController {
     }
 
     @Override
-    public ResponseEntity<LibraryApiResponse<Object>> getUsers() {
+    public ResponseEntity<ApiResponse<Object>> getUsers() {
         return null;
     }
 
     @Override
-    public ResponseEntity<LibraryApiResponse<Object>> getUserBooks(Long id) {
+    public ResponseEntity<ApiResponse<Object>> getUserBooks(Long id) {
         return null;
     }
 
@@ -68,12 +68,12 @@ public class LibraryControllerImpl implements LibraryController {
     }
 
     @Override
-    public ResponseEntity<LibraryApiResponse<Object>> issueBookForUser(Long bookId, Long userId) {
+    public ResponseEntity<ApiResponse<Object>> issueBookForUser(Long bookId, Long userId) {
         return null;
     }
 
     @Override
-    public ResponseEntity<LibraryApiResponse<Object>> removeBookFromUser(Long bookId, Long userId) {
+    public ResponseEntity<ApiResponse<Object>> removeBookFromUser(Long bookId, Long userId) {
         return null;
     }
 }
