@@ -21,8 +21,8 @@ public interface LibraryController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "User doesn't exist"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Processing Error")
     })
-    @GetMapping("/login")
-    boolean login(Long id);
+    @GetMapping("/login/{id}")
+    ResponseEntity<ApiResponse<Object>> login(@PathVariable Long id);
 
     @Operation(summary = "Gets all Books")
     @ApiResponses(value = {

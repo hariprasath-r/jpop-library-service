@@ -11,3 +11,11 @@
 ### Documentation
 
     - Configured swagger
+
+### Configuration
+
+    - Spring cloud config, discovery
+
+### Implementation
+
+    - Basic integration between services
