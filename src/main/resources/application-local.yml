@@ -1,0 +1,61 @@
+# profile for local testing without config server
+# spring.cloud.config.enabled: false in bootstrap.yml
+
+server:
+  port: 8083
+  servlet.context-path: /library-api
+  error.include-stacktrace: never
+
+spring:
+  h2.console.enabled: true
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+#    hibernate.ddl-auto: none
+    hibernate.ddl-auto: create-drop
+  datasource:
+    username: admin
+    password: admin
+    driver-class-name: org.h2.Driver
+    # persistent store
+    # url: jdbc:h2:file:~/data/dump
+    # volatile store
+    url: jdbc:h2:mem:jpop
+
+# DB Migration
+spring.flyway.enabled: false
+flyway:
+  url: jdbc:h2:mem:jpop
+  schemas: LIBRARYSERVICE
+  user: admin
+  password: admin
+  locations: filesystem:db/migration
+
+#actuator configs
+management:
+  endpoints:
+    enabled-by-default: true
+    web.exposue: health
+
+#swagger configs
+#configure the path for swagger ui html. Default is /swagger-ui.html
+#configured to default context path
+springdoc:
+  show-actuator: true
+  packagesToScan: in.hp.java.libraryservice
+  pathsToMatch: /library/**
+  swagger-ui:
+    enabled: true
+    path: /
+  api-docs:
+    enabled: true
+    path: /docs
+
+#swagger ui properties
+swagger-custom:
+  name: Library API
+  version: '@project.version@' #this will be coming from pom
+  description: '@project.description@'
+  contact:
+    name: Hariprasath
+    url: https://github.com/hariprasath-r

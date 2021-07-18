@@ -1,0 +1,8 @@
+spring:
+  application.name: library-service
+  profiles.active: default
+  cloud:
+    config:
+      enabled: false
+      uri: http://localhost:8899
+      fail-fast: true

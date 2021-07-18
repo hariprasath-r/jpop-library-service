@@ -5,3 +5,9 @@
 ### Implementation
 
     - Initial Configurations for controller, service and repo
+
+## 18-JULY-2021
+
+### Documentation
+
+    - Configured swagger
