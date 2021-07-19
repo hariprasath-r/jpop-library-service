@@ -6,6 +6,7 @@
 
     - Completed integration with book and user service
     - Implementations for all apis completed
+    - Introduced Parallelism using CompletableFuture
 
 ## 17-JULY-2021
 
