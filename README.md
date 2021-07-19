@@ -19,3 +19,4 @@ Library Service for JPoP Program
 4. Uses Cloud Config Server to fetch configurations
 5. Uses Eureka Discovery Server to register the instances
 6. Using CompletableFuture for parallelism
+7. Uses custom thread pool and maintains async tracing

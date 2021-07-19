@@ -2,11 +2,17 @@
 
 ## 19-JULY-2021
 
-## Implementation
+### Implementation
 
     - Completed integration with book and user service
     - Implementations for all apis completed
     - Introduced Parallelism using CompletableFuture
+
+### Configuration
+
+    - Updated the hibernate.ddl-auto property to update
+    - Configured sleuth and zipkin
+    - Configured thread pool and async span tracing
 
 ## 17-JULY-2021
 

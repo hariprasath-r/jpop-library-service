@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,6 +25,9 @@ public class LibraryService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ExecutorService executorService;
 
     @Transactional
     public void deleteBook(Long bookId) {
@@ -47,7 +51,7 @@ public class LibraryService {
 
     public void issueBookForUser(Long bookId, Long userId) {
         CompletableFuture
-                .runAsync(() -> checkUserAndBookExists(bookId, userId))
+                .runAsync(() -> checkUserAndBookExists(bookId, userId), executorService)
                 .thenRun(() -> {
                     log.info("Issuing book {}, for user {}", bookId, userId);
                     var libraryRecord = new UserBookRecordIdentifier(userId, bookId);
@@ -58,7 +62,7 @@ public class LibraryService {
 
     public void removeBookForUser(Long bookId, Long userId) {
         CompletableFuture
-                .runAsync(() -> checkUserAndBookExists(bookId, userId))
+                .runAsync(() -> checkUserAndBookExists(bookId, userId), executorService)
                 .thenRun(() -> {
                     log.info("Removing book {}, for user {}", bookId, userId);
                     var libraryRecord = new UserBookRecordIdentifier(userId, bookId);
@@ -85,8 +89,8 @@ public class LibraryService {
 
     private void checkUserAndBookExists(Long bookId, Long userId) {
         CompletableFuture.allOf(
-                CompletableFuture.runAsync(() -> checkBookExists(bookId)),
-                CompletableFuture.runAsync(() -> checkUserExists(userId))
+                CompletableFuture.runAsync(() -> checkBookExists(bookId), executorService),
+                CompletableFuture.runAsync(() -> checkUserExists(userId), executorService)
         ).join();
     }
 
