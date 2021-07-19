@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,21 +46,25 @@ public class LibraryService {
     }
 
     public void issueBookForUser(Long bookId, Long userId) {
-        checkUserAndBookExists(bookId, userId);
-
-        log.info("Issuing book {}, for user {}", bookId, userId);
-        var libraryRecord = new UserBookRecordIdentifier(userId, bookId);
-        libraryRepository.save(new Library(libraryRecord));
-        log.info("Issued book {}, for user {}", bookId, userId);
+        CompletableFuture
+                .runAsync(() -> checkUserAndBookExists(bookId, userId))
+                .thenRun(() -> {
+                    log.info("Issuing book {}, for user {}", bookId, userId);
+                    var libraryRecord = new UserBookRecordIdentifier(userId, bookId);
+                    libraryRepository.save(new Library(libraryRecord));
+                    log.info("Issued book {}, for user {}", bookId, userId);
+                }).join();
     }
 
     public void removeBookForUser(Long bookId, Long userId) {
-        checkUserAndBookExists(bookId, userId);
-
-        log.info("Removing book {}, for user {}", bookId, userId);
-        var libraryRecord = new UserBookRecordIdentifier(userId, bookId);
-        libraryRepository.delete(new Library(libraryRecord));
-        log.info("Removed book {}, for user {}", bookId, userId);
+        CompletableFuture
+                .runAsync(() -> checkUserAndBookExists(bookId, userId))
+                .thenRun(() -> {
+                    log.info("Removing book {}, for user {}", bookId, userId);
+                    var libraryRecord = new UserBookRecordIdentifier(userId, bookId);
+                    libraryRepository.delete(new Library(libraryRecord));
+                    log.info("Removed book {}, for user {}", bookId, userId);
+                }).join();
     }
 
     public UserDto getUserBooks(Long userId) {
@@ -79,8 +84,10 @@ public class LibraryService {
     }
 
     private void checkUserAndBookExists(Long bookId, Long userId) {
-        checkBookExists(bookId);
-        checkUserExists(userId);
+        CompletableFuture.allOf(
+                CompletableFuture.runAsync(() -> checkBookExists(bookId)),
+                CompletableFuture.runAsync(() -> checkUserExists(userId))
+        ).join();
     }
 
     private void checkBookExists(Long bookId) {
