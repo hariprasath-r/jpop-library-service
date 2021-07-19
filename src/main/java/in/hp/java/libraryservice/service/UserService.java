@@ -1,13 +1,11 @@
 package in.hp.java.libraryservice.service;
 
-import feign.FeignException;
 import in.hp.java.libraryservice.api.UserServiceClient;
-import in.hp.java.libraryservice.dto.ApiResponse;
 import in.hp.java.libraryservice.dto.UserDto;
+import in.hp.java.libraryservice.exception.ResourceNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,23 +19,17 @@ public class UserService {
     private UserServiceClient userServiceClient;
 
     public UserDto loginUser(Long userId) {
-        try {
-            log.info("Calling user service");
-            ResponseEntity<ApiResponse<Object>> responseEntity = userServiceClient.getUser(userId);
-            log.info("User service response received with status:: {}", responseEntity.getStatusCodeValue());
+        log.info("Calling user service");
+        var responseEntity = userServiceClient.getUser(userId);
+        log.info("User service response received with status:: {}", responseEntity.getStatusCodeValue());
 
-            var body = Optional.ofNullable(responseEntity.getBody());
-            if (body.isPresent()) {
-                var user = (UserDto) body.get().getResponse();
-                log.info("Logged in user <{}>", user);
-                return user;
-            } else {
-                return new UserDto();
-            }
-        } catch (FeignException e) {
-            e.printStackTrace();
-            log.error("Error in calling user service:: {}", e.getMessage());
-            return new UserDto();
+        var body = Optional.ofNullable(responseEntity.getBody());
+        if (body.isPresent()) {
+            var user = body.get().getResponse();
+            log.info("Logged in user <{}>", user);
+            return user;
+        } else {
+            throw new ResourceNotFoundException("User Not Found");
         }
     }
 

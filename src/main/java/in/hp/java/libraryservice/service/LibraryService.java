@@ -28,14 +28,14 @@ public class LibraryService {
 
     public void deleteBook(Long bookId) {
         CompletableFuture
-                .runAsync(() -> libraryRepository.deleteByUserBookRecordIdentifierBookId(bookId))
+                .runAsync(() -> libraryRepository.deleteByRecordIdBookId(bookId))
                 .thenRun(() -> bookService.deleteBook(bookId))
                 .join();
     }
 
     public void deleteUser(Long userId) {
         CompletableFuture
-                .runAsync(() -> libraryRepository.deleteByUserBookRecordIdentifierUserId(userId))
+                .runAsync(() -> libraryRepository.deleteByRecordIdUserId(userId))
                 .thenRun(() -> userService.deleteUser(userId))
                 .join();
     }
@@ -51,7 +51,7 @@ public class LibraryService {
     }
 
     public List<BookDto> getUserBooks(Long userId) {
-        var records = libraryRepository.findByUserBookRecordIdentifierUserId(userId);
+        var records = libraryRepository.findByRecordIdUserId(userId);
         var bookIds = records.stream()
                 .map(record -> record.getRecordId().getBookId())
                 .collect(Collectors.toList());

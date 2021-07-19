@@ -1,7 +1,7 @@
 package in.hp.java.libraryservice.controller.contract;
 
-import in.hp.java.libraryservice.dto.BookDto;
 import in.hp.java.libraryservice.dto.ApiResponse;
+import in.hp.java.libraryservice.dto.BookDto;
 import in.hp.java.libraryservice.dto.UserDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -9,6 +9,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Tag(name = "Library Controller", description = "User and Book data manipulation for the library")
 @RequestMapping("/library")
@@ -127,6 +130,7 @@ public interface LibraryController {
     default <T> ResponseEntity<ApiResponse<Object>> generateResponse(T response, HttpStatus httpStatus) {
         var libraryApiResponse = ApiResponse.builder()
                 .response(response)
+                .timestamp(LocalDateTime.now(ZoneId.of(ZoneId.SHORT_IDS.get("IST"))))
                 .build();
 
         return ResponseEntity.status(httpStatus)

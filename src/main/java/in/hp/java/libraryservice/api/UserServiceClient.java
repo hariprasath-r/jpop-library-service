@@ -6,6 +6,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @FeignClient(name = "${user-service.name}", path = "${user-service.path}")
 public interface UserServiceClient {
 
@@ -16,10 +18,10 @@ public interface UserServiceClient {
     ResponseEntity<Object> updateUser(@RequestBody UserDto user);
 
     @GetMapping
-    ResponseEntity<ApiResponse<Object>> getUsers();
+    ResponseEntity<ApiResponse<List<UserDto>>> getUsers();
 
     @GetMapping("/{id}")
-    ResponseEntity<ApiResponse<Object>> getUser(@PathVariable Long id);
+    ResponseEntity<ApiResponse<UserDto>> getUser(@PathVariable Long id);
 
     @DeleteMapping("/{id}")
     ResponseEntity<Object> deleteUser(@PathVariable Long id);

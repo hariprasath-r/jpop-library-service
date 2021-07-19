@@ -10,9 +10,9 @@ import java.util.List;
 @Repository
 public interface LibraryRepository extends JpaRepository<Library, UserBookRecordIdentifier> {
 
-    void deleteByUserBookRecordIdentifierBookId(Long bookId);
+    void deleteByRecordIdBookId(Long bookId);
 
-    void deleteByUserBookRecordIdentifierUserId(Long userId);
+    void deleteByRecordIdUserId(Long userId);
 
-    List<Library> findByUserBookRecordIdentifierUserId(Long userId);
+    List<Library> findByRecordIdUserId(Long userId);
 }

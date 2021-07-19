@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 
 @Schema(name = "Library Api Response", description = "Library Api Generic Response")
 @Data
@@ -21,7 +20,6 @@ public class ApiResponse<T> {
     T response;
 
     @Schema(name = "Timestamp")
-    @Builder.Default
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
-    LocalDateTime timestamp = LocalDateTime.now(ZoneId.of(ZoneId.SHORT_IDS.get("IST")));
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+    LocalDateTime timestamp;
 }

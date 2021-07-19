@@ -62,8 +62,8 @@ swagger-custom:
 
 book-service:
   name: book-service
-  root-path: /book-api
+  root-path: /book-api/books
 
 user-service:
   name: user-service
-  root-path: /user-api
+  path: /user-api/users
