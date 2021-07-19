@@ -5,7 +5,6 @@ import in.hp.java.libraryservice.dto.UserDto;
 import in.hp.java.libraryservice.exception.ResourceNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,8 +17,8 @@ public class UserService {
     @Autowired
     private UserServiceClient userServiceClient;
 
-    public UserDto loginUser(Long userId) {
-        log.info("Calling user service");
+    public UserDto getUser(Long userId) {
+        log.info("Calling user service for user:: {}", userId);
         var responseEntity = userServiceClient.getUser(userId);
         log.info("User service response received with status:: {}", responseEntity.getStatusCodeValue());
 
@@ -29,46 +28,39 @@ public class UserService {
             log.info("Logged in user <{}>", user);
             return user;
         } else {
+            log.error("Response Body Empty.");
             throw new ResourceNotFoundException("User Not Found");
         }
     }
 
     public List<UserDto> getUsers() {
-        var response = userServiceClient.getUsers().getBody();
-        var users = (List<UserDto>) response.getResponse();
-        return users;
-    }
+        log.info("Retrieving all Users");
+        var responseEntity = userServiceClient.getUsers();
+        log.info("User service response received with status :: {}", responseEntity.getStatusCodeValue());
 
-    public UserDto getUser(Long userId) {
-        var response = userServiceClient.getUser(userId).getBody();
-        var user = (UserDto) response.getResponse();
-        return user;
+        var body = Optional.ofNullable(responseEntity.getBody());
+        if (body.isPresent()) {
+            var users = body.get().getResponse();
+            log.info("Users received :: {}", users.size());
+            return users;
+        } else {
+            log.error("Response Body Empty.");
+            throw new ResourceNotFoundException("No Users Found");
+        }
     }
 
     public void addUser(UserDto userDto) {
-        var responseEntity = userServiceClient.addUser(userDto);
-        if (responseEntity.getStatusCode().equals(HttpStatus.CREATED)) {
-            log.info("User created.");
-        } else {
-            // log and throw exception
-        }
+        userServiceClient.addUser(userDto);
+        log.info("User created.");
     }
 
     public void updateUser(UserDto userDto) {
-        var responseEntity = userServiceClient.updateUser(userDto);
-        if (responseEntity.getStatusCode().equals(HttpStatus.OK)) {
-            log.info("User updated");
-        } else {
-            // log and throw exception
-        }
+        userServiceClient.updateUser(userDto);
+        log.info("User updated.");
     }
 
     public void deleteUser(Long userId) {
-        var responseEntity = userServiceClient.deleteUser(userId);
-        if (responseEntity.getStatusCode().equals(HttpStatus.GONE)) {
-            log.info("User Deleted.");
-        } else {
-            // log and throw exception
-        }
+        userServiceClient.deleteUser(userId);
+        log.info("User deleted.");
     }
 }

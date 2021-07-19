@@ -76,8 +76,8 @@ public interface LibraryController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "User doesn't exist"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Processing Error")
     })
-    @GetMapping("/users/books")
-    ResponseEntity<ApiResponse<Object>> getUserBooks(@PathVariable Long id);
+    @GetMapping("/users/{id}")
+    ResponseEntity<ApiResponse<UserDto>> getUserBooks(@PathVariable Long id);
 
     @Operation(summary = "Adds a User")
     @ApiResponses(value = {
@@ -118,7 +118,7 @@ public interface LibraryController {
 
     @Operation(summary = "Removes book from an user")
     @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Book removed from User"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "202", description = "Book removed from User"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "User or Book doesn't exist"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Processing Error")
     })
@@ -127,8 +127,8 @@ public interface LibraryController {
             @PathVariable("book_id") Long bookId,
             @PathVariable("user_id") Long userId);
 
-    default <T> ResponseEntity<ApiResponse<Object>> generateResponse(T response, HttpStatus httpStatus) {
-        var libraryApiResponse = ApiResponse.builder()
+    default <T> ResponseEntity<ApiResponse<T>> generateResponse(T response, HttpStatus httpStatus) {
+        var libraryApiResponse = ApiResponse.<T>builder()
                 .response(response)
                 .timestamp(LocalDateTime.now(ZoneId.of(ZoneId.SHORT_IDS.get("IST"))))
                 .build();

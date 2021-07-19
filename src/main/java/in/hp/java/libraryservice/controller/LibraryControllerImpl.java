@@ -28,39 +28,12 @@ public class LibraryControllerImpl implements LibraryController {
 
     @Override
     public ResponseEntity<ApiResponse<Object>> login(Long id) {
-        var user = userService.loginUser(id);
-        return generateResponse(user, HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<ApiResponse<Object>> getBooks() {
-        return generateResponse(bookService.getBooks(), HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<ApiResponse<Object>> getBook(Long id) {
-        return generateResponse(bookService.getBook(id), HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<Object> deleteBookFromLibrary(Long id) {
-        libraryService.deleteBook(id);
-        return ResponseEntity.ok().build();
-    }
-
-    @Override
-    public ResponseEntity<Object> addBook(BookDto book) {
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return generateResponse(userService.getUser(id), HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<ApiResponse<Object>> getUsers() {
         return generateResponse(userService.getUsers(), HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<ApiResponse<Object>> getUserBooks(Long id) {
-        return null;
     }
 
     @Override
@@ -76,20 +49,47 @@ public class LibraryControllerImpl implements LibraryController {
     }
 
     @Override
-    public ResponseEntity<Object> deleteUserFromLibrary(Long id) {
-        libraryService.deleteUser(id);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public ResponseEntity<ApiResponse<Object>> getBooks() {
+        return generateResponse(bookService.getBooks(), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<ApiResponse<Object>> getBook(Long id) {
+        return generateResponse(bookService.getBook(id), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Object> addBook(BookDto book) {
+        bookService.addBook(book);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @Override
+    public ResponseEntity<Object> deleteBookFromLibrary(Long id) {
+        libraryService.deleteBook(id);
+        return ResponseEntity.ok().build();
     }
 
     @Override
     public ResponseEntity<ApiResponse<Object>> issueBookForUser(Long bookId, Long userId) {
-        libraryService.addBookForUser(bookId, userId);
+        libraryService.issueBookForUser(bookId, userId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @Override
     public ResponseEntity<ApiResponse<Object>> removeBookFromUser(Long bookId, Long userId) {
         libraryService.removeBookForUser(bookId, userId);
-        return ResponseEntity.status(HttpStatus.GONE).build();
+        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+    }
+
+    @Override
+    public ResponseEntity<ApiResponse<UserDto>> getUserBooks(Long id) {
+        return generateResponse(libraryService.getUserBooks(id), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Object> deleteUserFromLibrary(Long id) {
+        libraryService.deleteUser(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

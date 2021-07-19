@@ -1,5 +1,12 @@
 # jpop-library-service
 
+## 19-JULY-2021
+
+## Implementation
+
+    - Completed integration with book and user service
+    - Implementations for all apis completed
+
 ## 17-JULY-2021
 
 ### Implementation

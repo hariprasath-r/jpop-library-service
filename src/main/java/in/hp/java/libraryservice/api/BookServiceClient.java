@@ -14,6 +14,9 @@ public interface BookServiceClient {
     @GetMapping
     ResponseEntity<ApiResponse<List<BookDto>>> getBooks();
 
+    @PostMapping("/filter")
+    ResponseEntity<ApiResponse<List<BookDto>>> getBooks(@RequestBody List<Long> bookIdentifiers);
+
     @GetMapping("/{id}")
     ResponseEntity<ApiResponse<BookDto>> getBook(@PathVariable Long id);
 
