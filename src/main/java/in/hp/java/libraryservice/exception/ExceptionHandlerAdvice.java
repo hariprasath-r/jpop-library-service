@@ -65,7 +65,7 @@ public class ExceptionHandlerAdvice extends ResponseEntityExceptionHandler {
         try {
             responseException = JsonUtils.getMapper().readValue(
                     body,
-                    new TypeReference<ApiResponse<ApiError>>() {
+                    new TypeReference<>() {
                     }
             );
             log.error("Exception: handleHttpClientErrorException [{}]", responseException);

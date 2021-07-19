@@ -20,7 +20,7 @@ public class BookService {
     public List<BookDto> getBooks() {
         log.info("Retrieving all Books");
         var responseEntity = bookServiceClient.getBooks();
-        log.info("Book service response received with status :: {}", responseEntity.getStatusCodeValue());
+        log.info("Get Books response received with status :: {}", responseEntity.getStatusCodeValue());
 
         var body = Optional.ofNullable(responseEntity.getBody());
         if (body.isPresent()) {
@@ -35,7 +35,7 @@ public class BookService {
     public BookDto getBook(Long bookId) {
         log.info("Retrieving book :: {}", bookId);
         var responseEntity = bookServiceClient.getBook(bookId);
-        log.info("Book service response received with status :: {}", responseEntity.getStatusCodeValue());
+        log.info("Get Book response received with status :: {}", responseEntity.getStatusCodeValue());
 
         var body = Optional.ofNullable(responseEntity.getBody());
         if (body.isPresent()) {
