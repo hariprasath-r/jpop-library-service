@@ -30,6 +30,9 @@ public class ThreadConfig extends AsyncConfigurerSupport {
         return new LazyTraceExecutor(beanFactory, threadPoolTaskExecutor);
     }
 
+    /**
+     * Thread pool size -> Num vcpu/core * (1 + (waiting time / service time))
+     */
     @Bean
     public ExecutorService configThread() {
         return new TraceableExecutorService(this.beanFactory, Executors.newFixedThreadPool(50));
